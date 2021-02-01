@@ -21,7 +21,7 @@ namespace GoFish
     public enum CardSuit { Diamonds, Spades, Hearts, Clubs }
     public enum CardValue
     {
-        Ace = 1,
+        ace = 1,
         two,
         three,
         four,

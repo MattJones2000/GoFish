@@ -42,10 +42,9 @@ namespace GoFish
             Console.WriteLine($"Deck count after deal is: {activeDeck.Count}");
 
 
+            GameDriver game = new GameDriver();
 
-
-
-            GameDriver game = new GameDriver(); 
+            game.RunGame();
 
         }   
     }
