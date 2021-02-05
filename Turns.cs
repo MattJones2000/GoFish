@@ -8,34 +8,57 @@ namespace GoFish
 {
     class Turns
     {
-        public static void playerTurn(Player currentPlayer, Player opponent)
+        public static void playerTurn(Player currentPlayer, Player opponent, List<Card> activeDeck)
         {
-            Console.WriteLine($"{currentPlayer} it is your turn! Here is your hand: \n");
+            Console.WriteLine($"Player {currentPlayer.PlayerNumber} it is your turn! Here is your hand: \n");
 
             displayHand(currentPlayer); // Display current player hand
 
-            CardValue value = promptForInput(currentPlayer);
+            Console.WriteLine($"\nplayer 2:  Here is your hand: \n");
+            displayHand(opponent); 
 
-            checkOtherPlayerHand(opponent,value);
+            // Validate user input
+            CardValue tempValue = promptForInput(currentPlayer);
+            
+            // Ensure that the card request exists in the current player's hand
+            CardValue value  = checkPlayerHand(currentPlayer, tempValue);
+
+            // Will check opponent's hand --> go fish or add a pair to current player deck
+            checkOpponentHand(currentPlayer, opponent,value ,activeDeck);
         }
 
-        private static void checkOtherPlayerHand(Player player, CardValue value)
+        private static void checkOpponentHand(Player currentPlayer, Player opponent, CardValue value, List<Card> activeDeck)
         {
-            // Checks the other players hand for a card that contains the value given
-            if (player.handOfCards.Exists(card => card.Value == value)) 
+            
+            // Make sure that the opponent has the card that they are requesting, will return null if they don't have it
+            var opponentCard = opponent.HandOfCards.Find(card => card.Value == value);
+
+            var currentPlayerCard = currentPlayer.HandOfCards.Find(card => card.Value == value);
+
+            if (opponentCard != null)
             {
-                Console.WriteLine("Match!");
+                // Remove the cards we found from both of their decks
+                currentPlayer.HandOfCards.Remove(currentPlayerCard);
+                opponent.HandOfCards.Remove(opponentCard);
+
+                currentPlayer.NumOfPairs++;
+
+                Console.WriteLine($" Player {opponent.PlayerNumber} has a {value}! A {value} has been removed from both players decks. Player {currentPlayer.PlayerNumber} " +
+                    $"now has {currentPlayer.NumOfPairs} pairs!");
             }
 
             else
             {
-                Console.WriteLine("Go fish!");
+                // Give the current player a card from the deck
+                DeckOfCards.PickUp(currentPlayer, activeDeck);
+                Console.WriteLine($"Go fish! Player {currentPlayer.PlayerNumber} has picked up one card");
             }
+
         }
 
-        public static CardValue promptForInput(Player player) // Returns a valid card value
+        private static CardValue promptForInput(Player player) // Returns a valid card value
         {
-            Console.Write("Now enter a value you want from the other player: \n");
+            Console.Write("\nNow enter a value you want from the other player: \n");
 
             bool validValue = false;
             string input = "";
@@ -48,26 +71,62 @@ namespace GoFish
                 // If it doesn't exist throw an error 
 
                 if (!Enum.IsDefined(typeof(CardValue), input.ToLower()))
-                    Console.WriteLine("Enter a valid value: ace, deuce, king, etc.");
-
+                    Console.WriteLine("Enter a valid value: ace, two, king, etc.");
+               
                 else
                     validValue = true;
             }
 
-            // Converts the user input string to a CardValue type
-            CardValue value = (CardValue)Enum.Parse(typeof(CardValue), input);
-
+            CardValue value = (CardValue)Enum.Parse(typeof(CardValue), input.ToLower());
             return value;
         }
 
-        public static void displayHand(Player player)
+        private static void displayHand(Player player)
         {
 
-            foreach (Card card in player.handOfCards)
+            foreach (Card card in player.HandOfCards)
             {
                 Console.WriteLine($"{card.Value} of {card.Suit}");
             }
         }
+
+        private static CardValue checkPlayerHand(Player player, CardValue value)
+        {
+            // Make sure that a card with the value that is requested is within the current player's hand
+
+            bool inHand = true;
+
+            // Checks the player's hand for the first card with the given value. Will return null if none are found
+            var currentPlayerCard = player.HandOfCards.Find(card => card.Value == value);
+
+            // Will store the correct value, default is that they entered a value that was correct
+
+            CardValue newValue = value; 
+
+            if (currentPlayerCard == null)
+            {
+                inHand = false;
+            }
+
+            while (!inHand)
+            {
+                // Validate user input again
+                Console.WriteLine("\nYou must enter a value that you have in your hand\n");
+
+                newValue = promptForInput(player);
+               
+                currentPlayerCard = player.HandOfCards.Find(card => card.Value == newValue);
+
+                if (currentPlayerCard != null)
+                {
+                    inHand = true; 
+                }
+
+            }
+
+                return newValue;
+        }
+
 
     }
 }

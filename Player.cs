@@ -8,10 +8,15 @@ namespace GoFish
 {
     class Player
     {
-      
-            
-        public List<Card> handOfCards { get; set; }
+        public int PlayerNumber { get; private set; }
+        public List<Card> HandOfCards { get; set; }
 
+        public int NumOfPairs { get; set; }
+        public Player(int number)
+        {
+            PlayerNumber = number;
+        }
+        
 
     }
 }

@@ -10,31 +10,31 @@ namespace GoFish
     {
         public void RunGame()
         {
-            int input;
+            
             bool activeGame = true;
 
-            Player player1 = new Player();
-            Player player2 = new Player();
+            Player player1 = new Player(1);
+            Player player2 = new Player(2);
             
             // Initialize and shuffle deck
             DeckOfCards deck = new DeckOfCards();
             var activeDeck = deck.CreateNewDeck();
-            deck.Shuffle(activeDeck);
+            DeckOfCards.Shuffle(activeDeck);
 
             // Deal hands to both players
 
-            deck.Deal(player1, player2, activeDeck);
+            DeckOfCards.Deal(player1, player2, activeDeck);
 
             while (activeGame)
             {
 
-                if (player1.handOfCards.Count == 0 || player2.handOfCards.Count == 0)
+                if (player1.HandOfCards.Count == 0 || player2.HandOfCards.Count == 0)
                 {
                     activeGame = false;
                     break; 
                 }
 
-                Turns.playerTurn(player1,player2); 
+                Turns.playerTurn(player1,player2,activeDeck); 
 
             }
         }

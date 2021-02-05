@@ -25,7 +25,7 @@ namespace GoFish
         }
 
         static Random r = new Random();
-        public void Shuffle(List<Card> deck)
+        public static void Shuffle(List<Card> deck)
         {
             for (var i = deck.Count - 1; i > 0; i--)
             {
@@ -36,23 +36,24 @@ namespace GoFish
             }
         }
 
-        public void Deal(Player player1, Player player2, List<Card> deck)
+        public static void Deal(Player player1, Player player2, List<Card> deck)
         {
 
-                player1.handOfCards = deck.Take(7).ToList();
+                player1.HandOfCards = deck.Take(7).ToList();
                 deck.RemoveRange(0, 7); // Take the first 7 cards of the deck and give to player
                                         // then remove those cards from the deck. 
 
-                player2.handOfCards = deck.Take(7).ToList();
+                player2.HandOfCards = deck.Take(7).ToList();
                 deck.RemoveRange(0, 7); 
           
         }
 
-        public void PickUp(Player player, List<Card> deck)
+        public static void PickUp(Player player, List<Card> deck)
         {
             // A single player picks up a single card (go fish)
-            player.handOfCards = deck.Take(1).ToList();
-            deck.RemoveRange(0, 1);
+            player.HandOfCards.Add(deck.First());
+
+            deck.RemoveAt(0);
         }
     }
 
