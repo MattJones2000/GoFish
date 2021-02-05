@@ -13,8 +13,8 @@ namespace GoFish
             
             bool activeGame = true;
 
-            Player player1 = new Player(1);
-            Player player2 = new Player(2);
+            Player player1 = new Player(1, true);
+            Player player2 = new Player(2, false);
             
             // Initialize and shuffle deck
             DeckOfCards deck = new DeckOfCards();
@@ -34,7 +34,21 @@ namespace GoFish
                     break; 
                 }
 
-                Turns.playerTurn(player1,player2,activeDeck); 
+                
+                if (player1.activeTurn)
+                {
+                    // Runs the turns method as player1 being the current player
+                    Turns.playerTurn(player1, player2, activeDeck);
+                    player1.activeTurn = false; 
+                    
+                }
+
+                else
+                {
+                    // Runs the turns method as player2 being the current player
+                    Turns.playerTurn(player2, player1, activeDeck);
+                    player1.activeTurn = true;
+                }
 
             }
         }
