@@ -8,14 +8,14 @@ namespace GoFish
 {
     class Card
     {
+        public CardSuit Suit { get; set; }
+        public CardValue Value { get; set; }
+
         public Card(CardSuit suit, CardValue value)
         {
             Suit = suit;
             Value = value;
         }
-
-        public CardSuit Suit { get; set; }
-        public CardValue Value { get; set; }
     }
 
     public enum CardSuit { Diamonds, Spades, Hearts, Clubs }

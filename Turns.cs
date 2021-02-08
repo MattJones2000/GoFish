@@ -10,12 +10,14 @@ namespace GoFish
     {
         public static void playerTurn(Player currentPlayer, Player opponent, List<Card> activeDeck)
         {
-            Console.WriteLine($"Player {currentPlayer.PlayerNumber} it is your turn! Here is your hand: \n");
+            
 
-            displayHand(currentPlayer); // Display current player hand
+            Player.displayHand(currentPlayer); // Display current player hand
 
+            Player.checkForDuplicates(currentPlayer); // Check hand for duplicate cards
+            
             Console.WriteLine($"\nplayer 2:  Here is your hand: \n");
-            displayHand(opponent); 
+            Player.displayHand(opponent); 
 
             // Validate user input
             CardValue tempValue = promptForInput(currentPlayer);
@@ -23,7 +25,7 @@ namespace GoFish
             // Ensure that the card request exists in the current player's hand
             CardValue value  = checkPlayerHand(currentPlayer, tempValue);
 
-            // Will check opponent's hand --> go fish or add a pair to current player deck
+            // Will check opponent's hand --> go fish or add a pair to current player pair number
             checkOpponentHand(currentPlayer, opponent,value ,activeDeck);
         }
 
@@ -81,15 +83,6 @@ namespace GoFish
             return value;
         }
 
-        private static void displayHand(Player player)
-        {
-
-            foreach (Card card in player.HandOfCards)
-            {
-                Console.WriteLine($"{card.Value} of {card.Suit}");
-            }
-        }
-
         private static CardValue checkPlayerHand(Player player, CardValue value)
         {
             // Make sure that a card with the value that is requested is within the current player's hand
@@ -127,6 +120,9 @@ namespace GoFish
                 return newValue;
         }
 
+      
+      
 
+  
     }
 }
