@@ -102,12 +102,5 @@ namespace GoFish
             System.Threading.Thread.Sleep(time);
         }
 
-        private void announceResults (Player player)
-        {
-            Console.WriteLine("\n**************** WE HAVE A WINNER ****************************\n");
-            Console.WriteLine("\n The deck has run out and now we need to decide a winner.... drumroll please...\n");
-            GameDriver.Sleep(4000);
-
-        }
     }
 }
