@@ -50,10 +50,16 @@ namespace GoFish
 
         public static void PickUp(Player player, List<Card> deck)
         {
-            // A single player picks up a single card (go fish)
-            player.HandOfCards.Add(deck.First());
-
-            deck.RemoveAt(0);
+            try
+            {
+                // A single player picks up a single card (go fish)
+                player.HandOfCards.Add(deck.First());
+                deck.RemoveAt(0);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("No more cards left in the deck");
+            }
         }
     }
 

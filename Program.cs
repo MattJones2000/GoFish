@@ -10,9 +10,10 @@ namespace GoFish
     {
         static void Main(string[] args)
         {
-           
+          
             GameDriver game = new GameDriver();
 
+            // Run the game
             game.RunGame();
 
         }   
