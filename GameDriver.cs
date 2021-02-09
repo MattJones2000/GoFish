@@ -51,9 +51,14 @@ namespace GoFish
                 }
 
             }
+
+            
         }
 
-      
-        
+        public static void Sleep(int time)
+        {
+            System.Threading.Thread.Sleep(time);
+        }
+
     }
 }

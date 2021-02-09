@@ -41,7 +41,7 @@ namespace GoFish
                 var numOfCards = listOfCardsByKey.Count;
 
                 // If the cnumber of cards
-                if (numOfCards % 2 != 0)
+                if (numOfCards == 1)
                 {
                     // If the key only has one or three corresponding card, it's safe to add the first card to the deck
                     // Other wise we do nothing 
@@ -53,31 +53,48 @@ namespace GoFish
                     currentPlayer.NumOfPairs++;
 
                     Console.WriteLine($"\nLucky! You had a pair of {currentKey}'s! They will removed from your deck and your pair count is now: " +
-                        $"{currentPlayer.NumOfPairs} pairs!");
+                        $"{currentPlayer.NumOfPairs} pairs!\n");
+
+                    GameDriver.Sleep(3000);
                 }
 
+                else if (numOfCards == 3)
+                {
+                    currentPlayer.NumOfPairs++;
+
+                    Console.WriteLine($"\nLucky! You had a pair of {currentKey}'s! They will removed from your deck and your pair count is now: " +
+                        $"{currentPlayer.NumOfPairs} pairs!\n");
+
+                    GameDriver.Sleep(3000);
+                }
 
                 else if (numOfCards == 4)
                 {
                     currentPlayer.NumOfPairs += 2;
 
                     Console.WriteLine($"\nLucky! You had two pairs of {currentKey}'s! They will removed from your deck and your pair count is now: " +
-                        $"{currentPlayer.NumOfPairs} pairs!");
+                        $"{currentPlayer.NumOfPairs} pairs!\n");
+
+                    GameDriver.Sleep(3000);
                 }
 
 
             }
 
+            if (newHand.Count != currentPlayer.HandOfCards.Count)
+            {
+                Console.WriteLine($"\nPlayer {currentPlayer.PlayerNumber} it is still your turn, here is your new hand:\n ");
 
-            currentPlayer.HandOfCards = newHand;
+                currentPlayer.HandOfCards = newHand;
 
-            displayHand(currentPlayer);
+                displayHand(currentPlayer);
+            }
 
         }
 
         public static void displayHand(Player currentPlayer)
         {
-            Console.WriteLine($"Player {currentPlayer.PlayerNumber} it is your turn! Here is your hand: \n");
+            GameDriver.Sleep(3000);
 
             foreach (Card card in currentPlayer.HandOfCards)
             {

@@ -10,7 +10,8 @@ namespace GoFish
     {
         public static void playerTurn(Player currentPlayer, Player opponent, List<Card> activeDeck)
         {
-            
+
+            Console.WriteLine($"\nPlayer {currentPlayer.PlayerNumber} it is your turn! Here is your hand: \n");
 
             Player.displayHand(currentPlayer); // Display current player hand
 
@@ -27,6 +28,11 @@ namespace GoFish
 
             // Will check opponent's hand --> go fish or add a pair to current player pair number
             checkOpponentHand(currentPlayer, opponent,value ,activeDeck);
+
+            
+            Console.WriteLine($"\nPlayer {currentPlayer.PlayerNumber}'s turn is complete. Hit enter to start player 2's turn");
+            Console.ReadLine();
+            Console.Clear();
         }
 
         private static void checkOpponentHand(Player currentPlayer, Player opponent, CardValue value, List<Card> activeDeck)
@@ -45,7 +51,7 @@ namespace GoFish
 
                 currentPlayer.NumOfPairs++;
 
-                Console.WriteLine($" Player {opponent.PlayerNumber} has a {value}! A {value} has been removed from both players decks. Player {currentPlayer.PlayerNumber} " +
+                Console.WriteLine($"\nPlayer {opponent.PlayerNumber} has a {value}! A {value} has been removed from both players decks. Player {currentPlayer.PlayerNumber} " +
                     $"now has {currentPlayer.NumOfPairs} pairs!");
             }
 
@@ -53,7 +59,7 @@ namespace GoFish
             {
                 // Give the current player a card from the deck
                 DeckOfCards.PickUp(currentPlayer, activeDeck);
-                Console.WriteLine($"Go fish! Player {currentPlayer.PlayerNumber} has picked up one card");
+                Console.WriteLine($"\nGo fish! Player {currentPlayer.PlayerNumber} has picked up one card\n");
             }
 
         }
@@ -92,7 +98,7 @@ namespace GoFish
             // Checks the player's hand for the first card with the given value. Will return null if none are found
             var currentPlayerCard = player.HandOfCards.Find(card => card.Value == value);
 
-            // Will store the correct value, default is that they entered a value that was correct
+            // Will store the correct value, the default is that they entered a value that was correct
 
             CardValue newValue = value; 
 
@@ -119,10 +125,5 @@ namespace GoFish
 
                 return newValue;
         }
-
-      
-      
-
-  
     }
 }
