@@ -52,7 +52,7 @@ namespace GoFish
                 {
                     currentPlayer.NumOfPairs++;
 
-                    Console.WriteLine($"\nLucky! You had a pair of {currentKey}'s! They will removed from your deck and your pair count is now: " +
+                    Console.WriteLine($"\nYou had a pair of {currentKey}'s! They will removed from your deck and your pair count is now: " +
                         $"{currentPlayer.NumOfPairs} pairs!\n");
 
                     GameDriver.Sleep(3000);
@@ -62,9 +62,10 @@ namespace GoFish
                 {
                     currentPlayer.NumOfPairs++;
 
-                    Console.WriteLine($"\nLucky! You had a pair of {currentKey}'s! They will removed from your deck and your pair count is now: " +
+                    Console.WriteLine($"\nYou had a pair of {currentKey}'s! They will removed from your deck and your pair count is now: " +
                         $"{currentPlayer.NumOfPairs} pairs!\n");
 
+                    newHand.Add(listOfCardsByKey[0]);
                     GameDriver.Sleep(3000);
                 }
 
@@ -83,10 +84,11 @@ namespace GoFish
 
             if (newHand.Count != currentPlayer.HandOfCards.Count)
             {
-                Console.WriteLine($"\nPlayer {currentPlayer.PlayerNumber} it is still your turn, here is your new hand:\n ");
+                Console.WriteLine($"\nPlayer {currentPlayer.PlayerNumber} it is still your turn, press enter to get your new hand:\n ");
 
                 currentPlayer.HandOfCards = newHand;
-
+                Console.ReadLine();
+                Console.Clear();
                 displayHand(currentPlayer);
             }
 
@@ -96,9 +98,14 @@ namespace GoFish
         {
             GameDriver.Sleep(3000);
 
+            int numOfCardsDisplayed = 1;
             foreach (Card card in currentPlayer.HandOfCards)
             {
-                Console.WriteLine($"{card.Value} of {card.Suit}");
+                numOfCardsDisplayed++;
+                Card.ResetCursor(numOfCardsDisplayed);
+                Card.PrintCard(card);
+               
+               // Console.WriteLine($"{card.Value} of {card.Suit}");
             }
         }
     }

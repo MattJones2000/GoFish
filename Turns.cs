@@ -17,8 +17,8 @@ namespace GoFish
 
             Player.checkForDuplicates(currentPlayer); // Check hand for duplicate cards
             
-            Console.WriteLine($"\nplayer 2:  Here is your hand: \n");
-            Player.displayHand(opponent); 
+            //Console.WriteLine($"\nplayer 2:  Here is your hand: \n");
+            //Player.displayHand(opponent); 
 
             // Validate user input
             CardValue tempValue = promptForInput(currentPlayer);
