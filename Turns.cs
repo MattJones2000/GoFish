@@ -10,24 +10,34 @@ namespace GoFish
     {
         public static void playerTurn(Player currentPlayer, Player opponent, List<Card> activeDeck)
         {
+            bool pairFound = true;
 
-            Console.WriteLine($"\nPlayer {currentPlayer.PlayerNumber} it is your turn! Here is your hand: \n");
+            while (pairFound == true)
+            {
 
-            Player.displayHand(currentPlayer); // Display current player hand
+                Console.WriteLine($"\nPlayer {currentPlayer.PlayerNumber} it is your turn! Here is your hand: \n");
 
-            Player.checkForDuplicates(currentPlayer); // Check hand for duplicate cards
-            
-            //Console.WriteLine($"\nplayer 2:  Here is your hand: \n");
-            //Player.displayHand(opponent); 
+                Player.displayHand(currentPlayer); // Display current player hand
 
-            // Validate user input
-            CardValue tempValue = promptForInput(currentPlayer);
-            
-            // Ensure that the card request exists in the current player's hand
-            CardValue value  = checkPlayerHand(currentPlayer, tempValue);
+                Player.checkForDuplicates(currentPlayer); // Check hand for duplicate cards
 
-            // Will check opponent's hand --> go fish or add a pair to current player pair number
-            checkOpponentHand(currentPlayer, opponent,value ,activeDeck);
+                //Console.WriteLine($"\nplayer 2:  Here is your hand: \n");
+                //Player.displayHand(opponent); 
+
+                // Validate user input
+                CardValue tempValue = promptForInput(currentPlayer);
+
+                // Ensure that the card request exists in the current player's hand
+                CardValue value = checkPlayerHand(currentPlayer, tempValue);
+
+                // Will check opponent's hand --> go fish or add a pair to current player pair number
+                pairFound = checkOpponentHand(currentPlayer, opponent, value, activeDeck);
+
+                Console.ReadLine();
+                Console.Clear();
+
+            }
+           
 
             
             Console.WriteLine($"\nPlayer {currentPlayer.PlayerNumber}'s turn is complete. Hit enter to start player 2's turn");
@@ -35,13 +45,15 @@ namespace GoFish
             Console.Clear();
         }
 
-        private static void checkOpponentHand(Player currentPlayer, Player opponent, CardValue value, List<Card> activeDeck)
+        private static bool checkOpponentHand(Player currentPlayer, Player opponent, CardValue value, List<Card> activeDeck)
         {
             
             // Make sure that the opponent has the card that they are requesting, will return null if they don't have it
             var opponentCard = opponent.HandOfCards.Find(card => card.Value == value);
 
             var currentPlayerCard = currentPlayer.HandOfCards.Find(card => card.Value == value);
+
+            
 
             if (opponentCard != null)
             {
@@ -53,6 +65,8 @@ namespace GoFish
 
                 Console.WriteLine($"\nPlayer {opponent.PlayerNumber} has a {value}! A {value} has been removed from both players decks. Player {currentPlayer.PlayerNumber} " +
                     $"now has {currentPlayer.NumOfPairs} pairs!");
+
+                return true;
             }
 
             else
@@ -60,6 +74,7 @@ namespace GoFish
                 // Give the current player a card from the deck
                 DeckOfCards.PickUp(currentPlayer, activeDeck);
                 Console.WriteLine($"\nGo fish! Player {currentPlayer.PlayerNumber} has picked up one card\n");
+                return false;
             }
 
         }
